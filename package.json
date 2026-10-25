@@ -1,0 +1,29 @@
+{
+  "name": "dsh-live-docs",
+  "version": "0.2.0",
+  "description": "让若干绝对路径的活文档改动后自动以尾部追加的方式到达模型。机制照抄原生 dsh-agent-instructions（四态 / 状态进 source / 框架转义 / 预算降级），只把锚点从 cwd 祖先链换成绝对路径清单。0.2.1 起配置写在 profile patch 的本 entry config，三个顶层字段 volatile（改配置不 remount）。",
+  "private": true,
+  "type": "module",
+  "main": "./index.js",
+  "engines": {
+    "dsh": ">=0.2.1-rc.2"
+  },
+  "exports": {
+    ".": {
+      "default": "./index.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "cordis.patch.yml"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "//dependencies": "刻意不声明 @deepseek-ai/schemastery 与 @deepseek-ai/dsh-llm：那两个是 harness 自带的私有包，npm 上不存在，声明了 pnpm install 会失败。运行时由 dsh 的解析器从安装树提供。"
+}

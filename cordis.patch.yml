@@ -1,0 +1,21 @@
+# dsh-live-docs bundle patch（0.2.1 版）
+#
+# 一条 insert 行激活这个插件。配置写在**本 entry 的 config**里，
+# 不再走 $DSH_HOME/settings.yaml（0.2.1 起旧 settings.yaml 只会被导入一次）。
+#
+# 三个顶层字段都标了 .volatile()：
+#   只改它们 → Loader 不 remount、直接提交到运行中的 fiber.config
+#   → 插件下一次 agent/pre-step 就读到新值，不拆会话。
+#
+# 生效范围不是靠卡，而是靠 presets 列表：插件自己读
+# session.header.agentPreset，只有列出来的 preset 才真的干活。
+#
+# ⚠ 本包带了这份 patch，所以**不要**同时把包加进 dsh.profile.bundles ——
+#   那样同一 id 会被插两次。
+- insert:
+    - id: live-docs
+      name: 'dsh-live-docs'
+      config:
+        presets: []
+        maxInlineBytes: 262144
+        maxBatchBytes: 524288
